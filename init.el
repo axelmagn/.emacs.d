@@ -54,11 +54,13 @@
 			  :prefix "SPC"
 			  :global-prefix "C-SPC")
   (axelmagn/leader-keys
-   "f" '(:ignore t :which-key "files")
+   "`"  'shell
+   "f"  '(:ignore t :which-key "files")
    "fi" '(lambda()(interactive)(find-file user-init-file) :which-key "user-init-file")
+   "ff" 'counsel-find-file
+   "b"  '(:ignore t :which-key "buffers")
    "bl" 'list-buffers
    "bk" 'kill-buffer
-   "`" 'shell
    "hf" 'counsel-describe-function
    "hv" 'counsel-describe-variable))
 
@@ -120,15 +122,20 @@
                           (require 'lsp-python-ms)
                           (lsp))))  ; or lsp-deferred
 
+(use-package rustic
+  ;; (:bind (:map rustic-mode-map ...))
+  :config
+  ;; rustfmt on save
+  (setq rustic-format-on-save t)
+  :hook (rustic-mode . lsp-mode))
+
 ;; configure terminal depending on what is present.
 ;; use powershell
 (let ((windows-shell-file (executable-find "powershell")))
   (when windows-shell-file
     (use-package powershell)
-    (setq explicit-shell-file-name windows-shell-file)
-    ;; (setq explicit-bash-args ())
-    ;; (setq explicit-csh-args ())
-    ))
+    (axelmagn/leader-keys
+      "`" 'powershell)))
 
 
 
@@ -140,7 +147,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(powershell counsel ivy lsp-python-ms lsp-ui lsp-mode doom-modeline compat general doom-themes evil which-key)))
+   '(rustic powershell counsel ivy lsp-python-ms lsp-ui lsp-mode doom-modeline compat general doom-themes evil which-key)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
