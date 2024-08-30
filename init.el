@@ -1,5 +1,6 @@
 ;; Axel Magnuson Emacs Init File
 ;;
+
 ;; This is very much a WIP for the time being.  I am still figuring
 ;; out emacs.
 
@@ -13,14 +14,14 @@
 
 (set-fringe-mode 10) ; breathing room
 (setq visible-bell t) ; enable visible bell
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 96) ; fira code font
+(set-face-attribute 'default nil :font "Fira Code Retina" :height (+ 128 16)) ; fira code font
 
 ;; line numbering
 (column-number-mode)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode t)
 
-;; disable line numbers for some interactive modes
+;; DISABLE line numbers for some interactive modes
 (dolist (mode '(term-mode-hook
 		shell-mode-hook
 		eshell-mode-hook))
@@ -62,7 +63,10 @@
    "bl" 'list-buffers
    "bk" 'kill-buffer
    "hf" 'counsel-describe-function
-   "hv" 'counsel-describe-variable))
+   "hv" 'counsel-describe-variable
+   "s"  '(:ignore t :which-key "settings")
+   "st" 'counsel-load-theme
+   ))
 
 (use-package ivy
   :config
@@ -78,6 +82,10 @@
   :config
   (load-theme 'doom-acario-dark t))
 
+(use-package monokai-theme
+					; (load-theme 'monokai t)
+  )
+
 ;; Preview key bindings
 ;; https://github.com/justbur/emacs-which-key
 (use-package which-key
@@ -89,7 +97,13 @@
 ;; https://github.com/emacs-evil
 (use-package evil
   :config
-  (evil-mode 1)) ; enable evil on start
+  (evil-mode 1)
+  ) ; enable evil on start
+
+(use-package undo-tree
+  :config
+  (undo-tree-mode 1)
+  (setq evil-undo-system "undo-tree"))
 
 ;; prettier modeline
 (use-package compat) ; necessary for doom-modeline
@@ -147,7 +161,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(rustic powershell counsel ivy lsp-python-ms lsp-ui lsp-mode doom-modeline compat general doom-themes evil which-key)))
+   '(monokai-theme monokai rustic powershell counsel ivy lsp-python-ms lsp-ui lsp-mode doom-modeline compat general doom-themes evil which-key)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

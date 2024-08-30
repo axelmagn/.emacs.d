@@ -2,3 +2,4 @@
 /url
 /elpa
 *.el~
+*.~undo-tree~
